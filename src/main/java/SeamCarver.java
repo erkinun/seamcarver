@@ -23,9 +23,18 @@ public class SeamCarver {
     }
 
     public double energy(int x, int y) {
-            // energy of pixel at column x and row y
+        // energy of pixel at column x and row y
+
+        if (outsideX(x)) {
+            throw new IndexOutOfBoundsException("x is out of bounds");
+        }
+
+        if (outsideY(y)) {
+            throw new IndexOutOfBoundsException("y is out of bounds");
+        }
         throw new IllegalStateException("Not Implemented");
     }
+
     public int[] findHorizontalSeam() {
             // sequence of indices for horizontal seam
         throw new IllegalStateException("Not Implemented");
@@ -45,5 +54,13 @@ public class SeamCarver {
 
     public static void main(String[] args) {
         System.out.println("Hello world");
+    }
+
+    private boolean outsideY(int y) {
+        return y < 0 || y >= picture.height();
+    }
+
+    private boolean outsideX(int x) {
+        return x < 0 || x >= picture.width();
     }
 }
