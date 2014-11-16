@@ -28,6 +28,16 @@ public class SeamCarverTest {
 
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testEnergyXOutOfBounds() throws Exception {
+        seamCarver.energy(20, 20);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testEnergyYOutOfBounds() throws Exception {
+        seamCarver.energy(20, 20);
+    }
+
     @Test
     public void testEnergy() throws Exception {
 
