@@ -3,9 +3,11 @@
  */
 public class SeamCarver {
 
+    private Picture picture;
+
     public SeamCarver(Picture picture) {
-            // create a seam carver object based on the given picture
-        throw new IllegalStateException("Not Implemented");
+        // create a seam carver object based on the given picture
+        this.picture = picture;
     }
     public Picture picture() {
             // current picture
