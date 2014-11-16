@@ -48,6 +48,10 @@ public class SeamCarver {
 
         checkSeam(seam, SeamAlignment.HORIZONTAL);
 
+        if (picture.height() <= 1) {
+            throw new IllegalArgumentException("picture height is small: " + picture.height());
+        }
+
         throw new IllegalStateException("Not Implemented");
     }
 
@@ -55,6 +59,10 @@ public class SeamCarver {
         // remove vertical seam from current picture
 
         checkSeam(seam, SeamAlignment.VERTICAL);
+
+        if (picture.width() <= 1) {
+            throw new IllegalArgumentException("picture width is small: " + picture.width());
+        }
 
         throw new IllegalStateException("Not Implemented");
     }
