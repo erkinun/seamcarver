@@ -44,11 +44,18 @@ public class SeamCarver {
         throw new IllegalStateException("Not Implemented");
     }
     public void removeHorizontalSeam(int[] seam) {
-            // remove horizontal seam from current picture
+        // remove horizontal seam from current picture
+
+        checkSeam(seam);
+
         throw new IllegalStateException("Not Implemented");
     }
+
     public void removeVerticalSeam(int[] seam) {
-            // remove vertical seam from current picture
+        // remove vertical seam from current picture
+
+        checkSeam(seam);
+
         throw new IllegalStateException("Not Implemented");
     }
 
@@ -62,5 +69,11 @@ public class SeamCarver {
 
     private boolean outsideX(int x) {
         return x < 0 || x >= picture.width();
+    }
+
+    private void checkSeam(int[] seam) {
+        if (seam == null) {
+            throw new NullPointerException("seam array is null");
+        }
     }
 }

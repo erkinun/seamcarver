@@ -53,6 +53,17 @@ public class SeamCarverTest {
 
     }
 
+
+    @Test(expected = NullPointerException.class)
+    public void testHorizontalSeamWithNullArray() throws Exception {
+        seamCarver.removeHorizontalSeam(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testVerticalSeamWithNullArray() throws Exception {
+        seamCarver.removeVerticalSeam(null);
+    }
+
     @Test
     public void testRemoveHorizontalSeam() throws Exception {
 
