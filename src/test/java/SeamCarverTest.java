@@ -15,17 +15,17 @@ public class SeamCarverTest {
 
     @Test
     public void testPicture() throws Exception {
-
+        Assert.assertNotNull(seamCarver.picture());
     }
 
     @Test
     public void testWidth() throws Exception {
-
+        Assert.assertEquals(3, seamCarver.width());
     }
 
     @Test
     public void testHeight() throws Exception {
-
+        Assert.assertEquals(7, seamCarver.height());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)

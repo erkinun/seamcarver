@@ -14,12 +14,12 @@ public class SeamCarver {
         return picture;
     }
     public int width() {
-            // width of current picture
-        throw new IllegalStateException("Not Implemented");
+        // width of current picture
+        return picture.width();
     }
     public int height() {
-            // height of current picture
-        throw new IllegalStateException("Not Implemented");
+        // height of current picture
+        return picture.height();
     }
 
     public double energy(int x, int y) {
