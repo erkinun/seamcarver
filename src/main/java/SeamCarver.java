@@ -11,7 +11,7 @@ public class SeamCarver {
     }
     public Picture picture() {
             // current picture
-        throw new IllegalStateException("Not Implemented");
+        return picture;
     }
     public int width() {
             // width of current picture
