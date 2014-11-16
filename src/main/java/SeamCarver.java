@@ -46,7 +46,7 @@ public class SeamCarver {
     public void removeHorizontalSeam(int[] seam) {
         // remove horizontal seam from current picture
 
-        checkSeam(seam);
+        checkSeam(seam, SeamAlignment.HORIZONTAL);
 
         throw new IllegalStateException("Not Implemented");
     }
@@ -54,7 +54,7 @@ public class SeamCarver {
     public void removeVerticalSeam(int[] seam) {
         // remove vertical seam from current picture
 
-        checkSeam(seam);
+        checkSeam(seam, SeamAlignment.VERTICAL);
 
         throw new IllegalStateException("Not Implemented");
     }
@@ -71,9 +71,32 @@ public class SeamCarver {
         return x < 0 || x >= picture.width();
     }
 
-    private void checkSeam(int[] seam) {
+    private void checkSeam(int[] seam, SeamAlignment seamAlignment) {
         if (seam == null) {
             throw new NullPointerException("seam array is null");
         }
+
+        if (seamAlignment.equals(SeamAlignment.HORIZONTAL)) {
+            if (seam.length != picture.width()) {
+                throw new IllegalArgumentException("seam length different from width");
+            }
+        }
+
+        if (seamAlignment.equals(SeamAlignment.VERTICAL)) {
+            if (seam.length != picture.height()) {
+                throw new IllegalArgumentException("seam length different from height");
+            }
+        }
+
+        checkValidity(seam);
+    }
+
+    private void checkValidity(int[] seam) {
+        throw new IllegalStateException("Not implemented");
+    }
+
+    private static enum  SeamAlignment {
+        HORIZONTAL,
+        VERTICAL;
     }
 }

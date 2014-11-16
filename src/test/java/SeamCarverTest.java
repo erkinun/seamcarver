@@ -64,6 +64,38 @@ public class SeamCarverTest {
         seamCarver.removeVerticalSeam(null);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testHorizontalSeamLengthDifferent() throws Exception {
+
+        int[] seam = new int[4];
+
+        seamCarver.removeHorizontalSeam(seam);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHorizontalSeamLengthDifferent2() throws Exception {
+
+        int[] seam = new int[0];
+
+        seamCarver.removeHorizontalSeam(seam);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHorizontalSeamLengthDifferentVertical() throws Exception {
+
+        int[] seam = new int[10];
+
+        seamCarver.removeVerticalSeam(seam);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHorizontalSeamLengthDifferentVertical2() throws Exception {
+
+        int[] seam = new int[0];
+
+        seamCarver.removeVerticalSeam(seam);
+    }
+
     @Test
     public void testRemoveHorizontalSeam() throws Exception {
 
