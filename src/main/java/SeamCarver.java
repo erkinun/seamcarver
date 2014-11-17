@@ -1,14 +1,41 @@
+import java.awt.Color;
+
 /**
  * Created by unlue on 16/11/14.
  */
 public class SeamCarver {
 
+    private static final int BORDER_ENERGY = 195075;
+
     private Picture picture;
+    private int[][] energyTable;
 
     public SeamCarver(Picture picture) {
         // create a seam carver object based on the given picture
         this.picture = new Picture(picture);
+        this.energyTable = new int[picture.width()][picture.height()];
+
+        //calculate the energy table
+        //0,0 is upper left
+
+        for (int i = 0; i < picture.width(); i++) {
+            for (int j = 0; j < picture.height(); j++) {
+
+                if (indexesOnBorder(i, j)) {
+                    energyTable[i][j] = BORDER_ENERGY;
+                }
+                else {
+                    //do the calculation here
+                    int xEnergy = calculateGradient(i, j, SeamAlignment.HORIZONTAL);
+                    int yEnergy = calculateGradient(i, j, SeamAlignment.VERTICAL);
+
+                    energyTable[i][j] = xEnergy + yEnergy;
+                }
+
+            }
+        }
     }
+
     public Picture picture() {
             // current picture
         return picture;
@@ -101,6 +128,31 @@ public class SeamCarver {
 
     private void checkValidity(int[] seam) {
         throw new IllegalStateException("Not implemented");
+    }
+
+    private boolean indexesOnBorder(int i, int j) {
+        return (i == 0 || i == picture.width() -1) || (j == 0 || j == picture.height() - 1);
+    }
+
+    private int calculateGradient(int i, int j, SeamAlignment seamAlignment) {
+
+        Color left;
+        Color right;
+
+        if (seamAlignment.equals(SeamAlignment.HORIZONTAL)) {
+            left = picture.get(i - 1, j);
+            right = picture.get(i + 1, j);
+        }
+        else {
+            left = picture.get(i, j - 1);
+            right = picture.get(i, j - 1);
+        }
+
+        int rDiff = left.getRed() - right.getRed();
+        int gDiff = left.getGreen() - right.getGreen();
+        int bDiff = left.getBlue() - right.getBlue();
+
+        return (rDiff*rDiff) + (gDiff*gDiff) + (bDiff*bDiff);
     }
 
     private static enum  SeamAlignment {
