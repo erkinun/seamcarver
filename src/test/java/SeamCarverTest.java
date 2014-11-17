@@ -2,6 +2,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 public class SeamCarverTest {
 
     private SeamCarver seamCarver;
@@ -104,5 +106,15 @@ public class SeamCarverTest {
     @Test
     public void testRemoveVerticalSeam() throws Exception {
 
+    }
+
+    @Test
+    public void testComputeEnergy() throws Exception {
+        Color c1 = new Color(255, 203, 51);
+        Color c2 = new Color(255, 205, 255);
+
+        int energy = seamCarver.computeEnergy(c1, c2);
+
+        Assert.assertEquals(41620, energy);
     }
 }

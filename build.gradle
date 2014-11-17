@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 
-mainClassName = 'SeamCarver'
+mainClassName = 'PrintEnergy'
 
 sourceCompatibility = 1.7
 version = '1.0'

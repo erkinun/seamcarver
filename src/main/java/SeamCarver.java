@@ -26,10 +26,8 @@ public class SeamCarver {
                 }
                 else {
                     //do the calculation here
-                    int xEnergy = calculateGradient(i, j, SeamAlignment.HORIZONTAL);
-                    int yEnergy = calculateGradient(i, j, SeamAlignment.VERTICAL);
-
-                    energyTable[i][j] = xEnergy + yEnergy;
+                    int energy = calculateGradient(i, j);
+                    energyTable[i][j] = energy;
                 }
 
             }
@@ -59,7 +57,8 @@ public class SeamCarver {
         if (outsideY(y)) {
             throw new IndexOutOfBoundsException("y is out of bounds");
         }
-        throw new IllegalStateException("Not Implemented");
+
+        return energyTable[x][y];
     }
 
     public int[] findHorizontalSeam() {
@@ -134,20 +133,25 @@ public class SeamCarver {
         return (i == 0 || i == picture.width() -1) || (j == 0 || j == picture.height() - 1);
     }
 
-    private int calculateGradient(int i, int j, SeamAlignment seamAlignment) {
+    private int calculateGradient(int i, int j) {
 
         Color left;
         Color right;
 
-        if (seamAlignment.equals(SeamAlignment.HORIZONTAL)) {
-            left = picture.get(i - 1, j);
-            right = picture.get(i + 1, j);
-        }
-        else {
-            left = picture.get(i, j - 1);
-            right = picture.get(i, j - 1);
-        }
+        left = picture.get(i - 1, j);
+        right = picture.get(i + 1, j);
 
+        int energyH = computeEnergy(left, right);
+
+        left = picture.get(i, j - 1);
+        right = picture.get(i, j + 1);
+
+        int energyV = computeEnergy(left, right);
+
+        return energyH + energyV;
+    }
+
+    public int computeEnergy(Color left, Color right) {
         int rDiff = left.getRed() - right.getRed();
         int gDiff = left.getGreen() - right.getGreen();
         int bDiff = left.getBlue() - right.getBlue();
