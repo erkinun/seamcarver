@@ -84,21 +84,12 @@ public class SeamCarver {
             for (int i = 0; i < picture.width(); i++) {
                 for (int v : adjacent(i)) {
 
-                    StdOut.println("working on row: " + j + " col: " + i);
-                    StdOut.println("checking energy for row: " + (j+1) + " col: " + v);
-
                     relax(v, j + 1, i, distTo[i][j], distTo, edgeTo);
                 }
             }
         }
 
-        //find the shortest path
-
-        //we have dist[row-1][] array for shortest paths calculations
-
-        //find the min in dist[row-1][]
-        //from the min, trace back to dist[0][] array
-
+        //finding the end of shortest path
         double min = Double.MAX_VALUE;
         int minIndex = -1;
         int lastRowIndex = picture.height()-1;
@@ -109,6 +100,7 @@ public class SeamCarver {
             }
         }
 
+        //moving upwards, finding paths
         int[] seam = new int[picture.height()];
         seam[lastRowIndex] = minIndex;
         int colIndex = minIndex;
@@ -131,6 +123,8 @@ public class SeamCarver {
             throw new IllegalArgumentException("picture height is small: " + picture.height());
         }
 
+        picture = transpose(picture);
+
         throw new IllegalStateException("Not Implemented");
     }
 
@@ -147,7 +141,8 @@ public class SeamCarver {
     }
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
+        SeamCarver seamCarver = new SeamCarver(new Picture("files/HJocean.png"));
+        seamCarver.transpose(seamCarver.picture()).show();
     }
 
     private boolean outsideY(int y) {
@@ -252,5 +247,41 @@ public class SeamCarver {
     private static enum  SeamAlignment {
         HORIZONTAL,
         VERTICAL;
+    }
+
+    private Picture transpose(Picture oldPic) {
+
+        //4x6 png becomes 6x4
+        Picture tempPic = new Picture(oldPic.width(), oldPic.height());
+
+        int middleX = oldPic.width() / 2;
+        int diff;
+        for (int i = 0; i < oldPic.width(); i++) {
+            for (int j = 0; j < oldPic.height(); j++) {
+                //StdOut.println("changing: " + i + " and " + j);
+                diff = middleX - i;
+                //StdOut.print("diff is: " + diff + ", ");
+
+                int newCol;
+                if (middleX % 2 == 0) {
+                    newCol = (middleX-1) + diff;
+                }
+                else {
+                    newCol = middleX + diff;
+                }
+                //StdOut.println("setting new col: " + newCol);
+                tempPic.set(newCol, j, oldPic.get(i, j));
+            }
+        }
+
+        Picture newPic = new Picture(tempPic.height(), tempPic.width());
+
+        for (int i = tempPic.width() - 1, k = 0; i > -1; i--, k++) {
+            for (int j = 0; j < tempPic.height(); j++) {
+                newPic.set(j, k, tempPic.get(i, j));
+            }
+        }
+
+        return newPic;
     }
 }

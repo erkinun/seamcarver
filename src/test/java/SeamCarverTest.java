@@ -126,7 +126,7 @@ public class SeamCarverTest {
         expected[0] = 0;
         expected[1] = 1;
 
-        Assert.assertArrayEquals(expected, adj );
+        Assert.assertArrayEquals(expected, adj);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class SeamCarverTest {
         expected[1] = 1;
         expected[2] = 2;
 
-        Assert.assertArrayEquals(expected, adj );
+        Assert.assertArrayEquals(expected, adj);
     }
 
     @Test
@@ -147,6 +147,6 @@ public class SeamCarverTest {
         expected[0] = 1;
         expected[1] = 2;
 
-        Assert.assertArrayEquals(expected, adj );
+        Assert.assertArrayEquals(expected, adj);
     }
 }

@@ -34,7 +34,8 @@ public class PrintSeams {
             System.out.println();
         }                
         
-        System.out.printf("\nTotal energy: %.0f\n\n", totalSeamEnergy);
+        System.out.printf("Total energy: %.0f", totalSeamEnergy);
+        System.out.println();
     }
 
 
@@ -62,20 +63,23 @@ public class PrintSeams {
             System.out.println();
         }                
         
-        System.out.printf("\nTotal energy: %.0f\n\n", totalSeamEnergy);
+        System.out.printf("Total energy: %.0f", totalSeamEnergy);
+        System.out.println();
     }
 
     public static void main(String[] args)
     {
-        Picture inputImg = new Picture("files/3x7.png");
-        System.out.printf("image is %d columns by %d rows\n", inputImg.width(), inputImg.height());
+        Picture inputImg = new Picture("files/6x5.png");
+        System.out.printf("image is %d columns by %d rows", inputImg.width(), inputImg.height());
+        System.out.println();
         //inputImg.show();        
         SeamCarver sc = new SeamCarver(inputImg);
         
 //        System.out.printf("Displaying horizontal seam calculated.\n");
 //        printHorizontalSeam(sc);
 
-        System.out.printf("Displaying vertical seam calculated.\n");
+        System.out.printf("Displaying vertical seam calculated.");
+        System.out.println();
         printVerticalSeam(sc);
 
 
