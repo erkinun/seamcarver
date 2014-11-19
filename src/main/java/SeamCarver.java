@@ -62,8 +62,16 @@ public class SeamCarver {
     }
 
     public int[] findHorizontalSeam() {
-            // sequence of indices for horizontal seam
-        throw new IllegalStateException("Not Implemented");
+
+        // sequence of indices for horizontal seam
+
+        picture = transpose(picture);
+
+        int[] seam = findVerticalSeam();
+
+        picture = transpose(picture);
+
+        return seam;
     }
     public int[] findVerticalSeam() {
 
@@ -122,8 +130,6 @@ public class SeamCarver {
         if (picture.height() <= 1) {
             throw new IllegalArgumentException("picture height is small: " + picture.height());
         }
-
-        picture = transpose(picture);
 
         throw new IllegalStateException("Not Implemented");
     }
@@ -252,33 +258,11 @@ public class SeamCarver {
     private Picture transpose(Picture oldPic) {
 
         //4x6 png becomes 6x4
-        Picture tempPic = new Picture(oldPic.width(), oldPic.height());
+        Picture newPic = new Picture(oldPic.height(), oldPic.width());
 
-        int middleX = oldPic.width() / 2;
-        int diff;
         for (int i = 0; i < oldPic.width(); i++) {
             for (int j = 0; j < oldPic.height(); j++) {
-                //StdOut.println("changing: " + i + " and " + j);
-                diff = middleX - i;
-                //StdOut.print("diff is: " + diff + ", ");
-
-                int newCol;
-                if (middleX % 2 == 0) {
-                    newCol = (middleX-1) + diff;
-                }
-                else {
-                    newCol = middleX + diff;
-                }
-                //StdOut.println("setting new col: " + newCol);
-                tempPic.set(newCol, j, oldPic.get(i, j));
-            }
-        }
-
-        Picture newPic = new Picture(tempPic.height(), tempPic.width());
-
-        for (int i = tempPic.width() - 1, k = 0; i > -1; i--, k++) {
-            for (int j = 0; j < tempPic.height(); j++) {
-                newPic.set(j, k, tempPic.get(i, j));
+                newPic.set(j, i, oldPic.get(i, j));
             }
         }
 
