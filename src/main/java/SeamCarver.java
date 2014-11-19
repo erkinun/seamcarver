@@ -13,25 +13,7 @@ public class SeamCarver {
     public SeamCarver(Picture picture) {
         // create a seam carver object based on the given picture
         this.picture = new Picture(picture);
-        this.energyTable = new int[picture.width()][picture.height()];
-
-        //calculate the energy table
-        //0,0 is upper left
-
-        for (int i = 0; i < picture.width(); i++) {
-            for (int j = 0; j < picture.height(); j++) {
-
-                if (indexesOnBorder(i, j)) {
-                    energyTable[i][j] = BORDER_ENERGY;
-                }
-                else {
-                    //do the calculation here
-                    int energy = calculateGradient(i, j);
-                    energyTable[i][j] = energy;
-                }
-
-            }
-        }
+        this.energyTable = createEnergyTable(picture);
     }
 
     public Picture picture() {
@@ -66,10 +48,12 @@ public class SeamCarver {
         // sequence of indices for horizontal seam
 
         picture = transpose(picture);
+        energyTable = createEnergyTable(picture);
 
         int[] seam = findVerticalSeam();
 
         picture = transpose(picture);
+        energyTable = createEnergyTable(picture);
 
         return seam;
     }
@@ -245,7 +229,6 @@ public class SeamCarver {
     private void relax(int i, int j, int parentCol, double distParent, double[][] distTo, int[][] edgeTo) {
         if (distTo[i][j] > distParent + energy(i, j)) {
             distTo[i][j] = distParent + energy(i, j);
-            StdOut.println("assigning: " + parentCol + " for row: " + i + " col: " + j);
             edgeTo[i][j] = (picture.width() * (j-1)) + parentCol;
         }
     }
@@ -265,7 +248,30 @@ public class SeamCarver {
                 newPic.set(j, i, oldPic.get(i, j));
             }
         }
-
         return newPic;
+    }
+
+    private int[][] createEnergyTable(Picture pic) {
+        int[][] enTable = new int[pic.width()][pic.height()];
+
+        //calculate the energy table
+        //0,0 is upper left
+
+        for (int i = 0; i < pic.width(); i++) {
+            for (int j = 0; j < pic.height(); j++) {
+
+                if (indexesOnBorder(i, j)) {
+                    enTable[i][j] = BORDER_ENERGY;
+                }
+                else {
+                    //do the calculation here
+                    int energy = calculateGradient(i, j);
+                    enTable[i][j] = energy;
+                }
+
+            }
+        }
+
+        return enTable;
     }
 }
