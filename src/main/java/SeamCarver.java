@@ -66,9 +66,55 @@ public class SeamCarver {
         throw new IllegalStateException("Not Implemented");
     }
     public int[] findVerticalSeam() {
-            // sequence of indices for vertical seam
-        throw new IllegalStateException("Not Implemented");
+
+        double[][] distTo = new double[picture.width()][picture.height()];
+        int[] edgeTo = new int[picture.height()];
+
+        for (int j = 0; j < picture.height(); j++) {
+            for (int i = 0; i < picture.width(); i++) {
+                distTo[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        for (int j = 0; j < picture.height(); j++) {
+            distTo[0][j] = energy(0, j);
+        }
+
+        for (int j = 0; j < picture.height(); j++) {
+            for (int i = 0; i < picture.width(); i++) {
+                for (int v : adjacent(i)) {
+                    relax(v, j+1, i, distTo[i][j], distTo, edgeTo);
+                }
+            }
+        }
+
+        //find the shortest path
+
+        //we have dist[row-1][] array for shortest paths calculations
+
+        //find the min in dist[row-1][]
+        //from the min, trace back to dist[0][] array
+
+        double min = Double.MAX_VALUE;
+        int minIndex = -1;
+        int lastRowIndex = distTo.length-1;
+        for (int i = 0; i < distTo[lastRowIndex].length; i++) {
+            if (distTo[lastRowIndex][i] < min) {
+                min = distTo[lastRowIndex][i];
+                minIndex = i;
+            }
+        }
+
+        int[] seam = new int[distTo.length];
+        seam[lastRowIndex] = minIndex;
+        for (int i = lastRowIndex - 1; i >= 0; i--) {
+            seam[i] = edgeTo[i+1];
+        }
+
+        return seam;
+
     }
+
     public void removeHorizontalSeam(int[] seam) {
         // remove horizontal seam from current picture
 
@@ -157,6 +203,42 @@ public class SeamCarver {
         int bDiff = left.getBlue() - right.getBlue();
 
         return (rDiff*rDiff) + (gDiff*gDiff) + (bDiff*bDiff);
+    }
+
+    private int[] adjacent(int i) {
+
+        int[] adj;
+
+        if (i == 0 || i == picture.width() - 1) {
+            adj = new int[2];
+
+            if (i == 0) {
+                adj[0] = i;
+                adj[1] = i+1;
+            }
+            else {
+                adj[0] = i-1;
+                adj[1] = i;
+            }
+        }
+        else {
+            adj = new int[3];
+
+            adj[0] = i-1;
+            adj[1] = i;
+            adj[2] = i+1;
+        }
+
+        return adj;
+
+    }
+
+
+    private void relax(int i, int j, int parentCol, double distParent, double[][] distTo, int[] edgeTo) {
+        if (distTo[i][j] > distParent + energy(i, j)) {
+            distTo[i][j] = distParent + energy(i, j);
+            edgeTo[i] = parentCol;
+        }
     }
 
     private static enum  SeamAlignment {
