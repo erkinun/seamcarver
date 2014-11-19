@@ -118,4 +118,35 @@ public class SeamCarverTest {
 
         Assert.assertEquals(41620, energy);
     }
+
+    @Test
+    public void testAdjacency0() throws Exception {
+        int[] adj = seamCarver.adjacent(0);
+        int[] expected = new int[2];
+        expected[0] = 0;
+        expected[1] = 1;
+
+        Assert.assertArrayEquals(expected, adj );
+    }
+
+    @Test
+    public void testAdjacency1() throws Exception {
+        int[] adj = seamCarver.adjacent(1);
+        int[] expected = new int[3];
+        expected[0] = 0;
+        expected[1] = 1;
+        expected[2] = 2;
+
+        Assert.assertArrayEquals(expected, adj );
+    }
+
+    @Test
+    public void testAdjacency2() throws Exception {
+        int[] adj = seamCarver.adjacent(2);
+        int[] expected = new int[2];
+        expected[0] = 1;
+        expected[1] = 2;
+
+        Assert.assertArrayEquals(expected, adj );
+    }
 }

@@ -68,7 +68,7 @@ public class SeamCarver {
     public int[] findVerticalSeam() {
 
         double[][] distTo = new double[picture.width()][picture.height()];
-        int[] edgeTo = new int[picture.height()];
+        int[][] edgeTo = new int[picture.width()][picture.height()];
 
         for (int j = 0; j < picture.height(); j++) {
             for (int i = 0; i < picture.width(); i++) {
@@ -76,14 +76,18 @@ public class SeamCarver {
             }
         }
 
-        for (int j = 0; j < picture.height(); j++) {
-            distTo[0][j] = energy(0, j);
+        for (int j = 0; j < picture.width(); j++) {
+            distTo[j][0] = energy(j, 0);
         }
 
-        for (int j = 0; j < picture.height(); j++) {
+        for (int j = 0; j < picture.height() - 1; j++) {
             for (int i = 0; i < picture.width(); i++) {
                 for (int v : adjacent(i)) {
-                    relax(v, j+1, i, distTo[i][j], distTo, edgeTo);
+
+                    StdOut.println("working on row: " + j + " col: " + i);
+                    StdOut.println("checking energy for row: " + (j+1) + " col: " + v);
+
+                    relax(v, j + 1, i, distTo[i][j], distTo, edgeTo);
                 }
             }
         }
@@ -97,18 +101,21 @@ public class SeamCarver {
 
         double min = Double.MAX_VALUE;
         int minIndex = -1;
-        int lastRowIndex = distTo.length-1;
-        for (int i = 0; i < distTo[lastRowIndex].length; i++) {
-            if (distTo[lastRowIndex][i] < min) {
-                min = distTo[lastRowIndex][i];
+        int lastRowIndex = picture.height()-1;
+        for (int i = 0; i < distTo.length; i++) {
+            if (distTo[i][lastRowIndex] < min) {
+                min = distTo[i][lastRowIndex];
                 minIndex = i;
             }
         }
 
-        int[] seam = new int[distTo.length];
+        int[] seam = new int[picture.height()];
         seam[lastRowIndex] = minIndex;
+        int colIndex = minIndex;
         for (int i = lastRowIndex - 1; i >= 0; i--) {
-            seam[i] = edgeTo[i+1];
+            int index = edgeTo[colIndex][i+1];
+            colIndex = index % picture.width();
+            seam[i] = colIndex;
         }
 
         return seam;
@@ -205,7 +212,7 @@ public class SeamCarver {
         return (rDiff*rDiff) + (gDiff*gDiff) + (bDiff*bDiff);
     }
 
-    private int[] adjacent(int i) {
+    public int[] adjacent(int i) {
 
         int[] adj;
 
@@ -234,10 +241,11 @@ public class SeamCarver {
     }
 
 
-    private void relax(int i, int j, int parentCol, double distParent, double[][] distTo, int[] edgeTo) {
+    private void relax(int i, int j, int parentCol, double distParent, double[][] distTo, int[][] edgeTo) {
         if (distTo[i][j] > distParent + energy(i, j)) {
             distTo[i][j] = distParent + energy(i, j);
-            edgeTo[i] = parentCol;
+            StdOut.println("assigning: " + parentCol + " for row: " + i + " col: " + j);
+            edgeTo[i][j] = (picture.width() * (j-1)) + parentCol;
         }
     }
 
