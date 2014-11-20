@@ -21,18 +21,18 @@ public class ResizeDemo {
 //        }
 
         Picture inputImg = new Picture("files/HJOcean.png");
-        int removeColumns = 350;
-//        int removeRows = Integer.parseInt(args[2]);
+        int removeColumns = 150;
+        int removeRows = 100;
 
-        System.out.printf("image is %d columns by %d rows\n", inputImg.width(), inputImg.height());
+        System.out.printf("image is %d columns by %d rows%n", inputImg.width(), inputImg.height());
         SeamCarver sc = new SeamCarver(inputImg);
 
         Stopwatch sw = new Stopwatch();
 
-//        for (int i = 0; i < removeRows; i++) {
-//            int[] horizontalSeam = sc.findHorizontalSeam();
-//            sc.removeHorizontalSeam(horizontalSeam);
-//        }
+        for (int i = 0; i < removeRows; i++) {
+            int[] horizontalSeam = sc.findHorizontalSeam();
+            sc.removeHorizontalSeam(horizontalSeam);
+        }
 
         for (int i = 0; i < removeColumns; i++) {
             int[] verticalSeam = sc.findVerticalSeam();
@@ -40,7 +40,7 @@ public class ResizeDemo {
         }
         Picture outputImg = sc.picture();
 
-        System.out.printf("new image size is %d columns by %d rows\n", sc.width(), sc.height());
+        System.out.printf("new image size is %d columns by %d rows%n", sc.width(), sc.height());
 
         System.out.println("Resizing time: " + sw.elapsedTime() + " seconds.");
         inputImg.show();

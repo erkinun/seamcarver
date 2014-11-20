@@ -115,7 +115,13 @@ public class SeamCarver {
             throw new IllegalArgumentException("picture height is small: " + picture.height());
         }
 
-        throw new IllegalStateException("Not Implemented");
+        picture = transpose(picture);
+        energyTable = createEnergyTable(picture);
+
+        removeVerticalSeam(seam);
+
+        picture = transpose(picture);
+        energyTable = createEnergyTable(picture);
     }
 
     public void removeVerticalSeam(int[] seam) {
@@ -131,11 +137,13 @@ public class SeamCarver {
         Picture newPic = new Picture(picture.width() - 1, picture.height());
 
         for (int y = 0; y < picture.height(); y++) {
-            for (int x = 0, picX = 0; x < picture.width() - 1; x++, picX++) {
+            int picX = 0;
+            for (int x = 0; x < picture.width() - 1; x++) {
                 if (x == seam[y]) {
                     picX++;
                 }
                 newPic.set(x, y, picture.get(picX, y));
+                picX++;
             }
         }
 
