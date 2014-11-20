@@ -127,7 +127,20 @@ public class SeamCarver {
             throw new IllegalArgumentException("picture width is small: " + picture.width());
         }
 
-        throw new IllegalStateException("Not Implemented");
+        //with each vertical removal, width will be -1
+        Picture newPic = new Picture(picture.width() - 1, picture.height());
+
+        for (int y = 0; y < picture.height(); y++) {
+            for (int x = 0, picX = 0; x < picture.width() - 1; x++, picX++) {
+                if (x == seam[y]) {
+                    picX++;
+                }
+                newPic.set(x, y, picture.get(picX, y));
+            }
+        }
+
+        picture = newPic;
+        energyTable = createEnergyTable(picture);
     }
 
     public static void main(String[] args) {
