@@ -164,7 +164,21 @@ public class SeamCarver {
     }
 
     private void checkValidity(int[] seam) {
-        throw new IllegalStateException("Not implemented");
+
+        int prevIdx = seam[0]; //for first idx we do not have to check this
+
+        for (int idx = 0; idx < seam.length; idx++) {
+            int seamIdx = seam[idx];
+            if (seamIdx < 0 || seamIdx >= picture.width()) {
+                throw new IllegalArgumentException("seam index is outside of width range");
+            }
+
+            if (Math.abs(seamIdx - prevIdx) > 1) {
+                throw new IllegalArgumentException("seam index is outside of width range");
+            }
+
+            prevIdx = seamIdx;
+        }
     }
 
     private boolean indexesOnBorder(int i, int j) {

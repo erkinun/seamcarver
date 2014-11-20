@@ -48,12 +48,18 @@ public class SeamCarverTest {
 
     @Test
     public void testFindHorizontalSeam() throws Exception {
+        int[] seam = seamCarver.findHorizontalSeam();
 
+        Assert.assertNotNull(seam);
+        Assert.assertTrue(seam.length == seamCarver.picture().width());
     }
 
     @Test
     public void testFindVerticalSeam() throws Exception {
+        int[] seam = seamCarver.findVerticalSeam();
 
+        Assert.assertNotNull(seam);
+        Assert.assertTrue(seam.length == seamCarver.picture().height());
     }
 
 
@@ -104,9 +110,21 @@ public class SeamCarverTest {
 
     }
 
-    @Test
-    public void testRemoveVerticalSeam() throws Exception {
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveVerticalSeamIllegalArgument() throws Exception {
+        int[] seam = seamCarver.findVerticalSeam();
+        seam[0] = 5;
 
+        seamCarver.removeVerticalSeam(seam);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoveVerticalSeamNotValid() throws Exception {
+        int[] seam = seamCarver.findVerticalSeam();
+        seam[0] = 0;
+        seam[1] = 2;
+
+        seamCarver.removeVerticalSeam(seam);
     }
 
     @Test
