@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.Color;
+import java.lang.reflect.Method;
 
 
 public class SeamCarverTest {
@@ -132,14 +133,18 @@ public class SeamCarverTest {
         Color c1 = new Color(255, 203, 51);
         Color c2 = new Color(255, 205, 255);
 
-        int energy = seamCarver.computeEnergy(c1, c2);
+        Method method = SeamCarver.class.getDeclaredMethod("computeEnergy", Color.class, Color.class);
+        method.setAccessible(true);
+        int energy = (Integer) method.invoke(seamCarver, c1, c2);
 
         Assert.assertEquals(41620, energy);
     }
 
     @Test
     public void testAdjacency0() throws Exception {
-        int[] adj = seamCarver.adjacent(0);
+        Method method = getAdjacentMethod();
+        int[] adj = (int[]) method.invoke(seamCarver, 0);
+        //int[] adj = seamCarver.adjacent(0);
         int[] expected = new int[2];
         expected[0] = 0;
         expected[1] = 1;
@@ -147,9 +152,12 @@ public class SeamCarverTest {
         Assert.assertArrayEquals(expected, adj);
     }
 
+
     @Test
     public void testAdjacency1() throws Exception {
-        int[] adj = seamCarver.adjacent(1);
+        Method method = getAdjacentMethod();
+        int[] adj = (int[]) method.invoke(seamCarver, 1);
+        //int[] adj = seamCarver.adjacent(1);
         int[] expected = new int[3];
         expected[0] = 0;
         expected[1] = 1;
@@ -160,11 +168,20 @@ public class SeamCarverTest {
 
     @Test
     public void testAdjacency2() throws Exception {
-        int[] adj = seamCarver.adjacent(2);
+        Method method = getAdjacentMethod();
+        int[] adj = (int[]) method.invoke(seamCarver, 2);
+        //int[] adj = seamCarver.adjacent(2);
         int[] expected = new int[2];
         expected[0] = 1;
         expected[1] = 2;
 
         Assert.assertArrayEquals(expected, adj);
+    }
+
+    private Method getAdjacentMethod() throws NoSuchMethodException {
+        Method method = SeamCarver.class.getDeclaredMethod("adjacent", int.class);
+        method.setAccessible(true);
+
+        return method;
     }
 }

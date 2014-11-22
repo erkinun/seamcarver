@@ -224,7 +224,7 @@ public class SeamCarver {
         return energyH + energyV;
     }
 
-    public int computeEnergy(Color left, Color right) {
+    private int computeEnergy(Color left, Color right) {
         int rDiff = left.getRed() - right.getRed();
         int gDiff = left.getGreen() - right.getGreen();
         int bDiff = left.getBlue() - right.getBlue();
@@ -232,7 +232,7 @@ public class SeamCarver {
         return (rDiff*rDiff) + (gDiff*gDiff) + (bDiff*bDiff);
     }
 
-    public int[] adjacent(int i) {
+    private int[] adjacent(int i) {
 
         int[] adj;
 
